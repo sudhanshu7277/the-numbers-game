@@ -1,0 +1,10 @@
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import Report from '../models/Report.js';
+import { computeAll, summarize } from '../utils/numerology.js';
+const router = express.Router();
+const auth = (req,res,next)=>{ const token=(req.headers.authorization||'').replace('Bearer ',''); try{ const p=jwt.verify(token, process.env.JWT_SECRET); req.userId=p.sub; req.role=p.role; }catch{} next(); };
+router.get('/mine', auth, async (req,res)=>{ if(!req.userId) return res.status(401).json({ error:'Unauthorized' }); const items = await Report.find({ userId:req.userId }).sort({ createdAt:-1 }).lean(); res.json(items); });
+router.post('/recompute', auth, async (req,res)=>{ if(!req.userId) return res.status(401).json({ error:'Unauthorized' }); const { name, dob } = req.body; const n = computeAll({ name, dob }); const r = await Report.create({ userId:req.userId, numbers:n, summary:summarize(n) }); res.json(r); });
+router.get('/', auth, async (req,res)=>{ if(req.role!=='admin') return res.status(403).json({ error:'Forbidden' }); const items = await Report.find().populate('userId','name email').sort({ createdAt:-1 }).limit(300).lean(); res.json(items); });
+export default router;

@@ -1,0 +1,5 @@
+{
+    "title": "Discover Your Numbers ✨",
+    "subtitle": "Enter your details and let our AI‑assisted numerology engine reveal your traits, habits and life path.",
+    "form": {"name":"Full Name","dob":"Date of Birth","gender":"Gender","email":"Email","phone":"Phone","select":"Select","create":"Create / Sign In","sendOtp":"Send OTP","otp":"Enter OTP","verify":"Verify OTP","magic":"Magic Link"}
+    }
