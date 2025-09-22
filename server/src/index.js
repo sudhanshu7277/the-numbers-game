@@ -76,7 +76,7 @@ connectDB(process.env.MONGODB_URI, process.env.DB_NAME).then(() => {
 });
 
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
     const port = process.env.PORT || 8080;
     app.listen(port, () =>
       console.log(`🚀 API running at http://localhost:${port}`)
