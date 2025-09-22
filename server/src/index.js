@@ -70,11 +70,18 @@ const port = process.env.PORT || 8080;
 
 connectDB(process.env.MONGODB_URI, process.env.DB_NAME).then(() => {
   console.log("✅ Connected to MongoDB:", mongoose.connection.name);
-  app.listen(port, () =>
-    console.log(`🚀 API running at http://localhost:${port}`)
-  );
+//   app.listen(port, () =>
+//     console.log(`🚀 API running at http://localhost:${port}`)
+//   );
 });
 
+
+if (process.env.NODE_ENV !== "production") {
+    const port = process.env.PORT || 8080;
+    app.listen(port, () =>
+      console.log(`🚀 API running at http://localhost:${port}`)
+    );
+  }
 
 
 
